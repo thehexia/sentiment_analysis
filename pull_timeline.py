@@ -33,7 +33,8 @@ def pull_timeline(user):
 			break
 		query = query + query2
 	#pretty print timeline
-	tweet_printer.pretty_print_timeline(query)
-	#save timeline to parseable csv
-	#first line is username
-	#format hour:minute:second, mm/dd/yyyy, text, retweet_count, is_a_retweet ? true : false
+	#tweet_printer.pretty_print_timeline(query)
+	#csv print
+	tweet_printer.csv_print(query, user, "test.txt")
+	#raw print
+	#tweet_printer.raw_print(query, "test.txt")
