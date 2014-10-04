@@ -27,14 +27,14 @@ def pull_timeline(user):
 	#loop the query until we get an empty response
 	while (True):
 		print ( "Working ... Last ID:" + str(last_id) )
-		query2 = twitter.statuses.user_timeline(screen_name = user, count = 200, max_id = last_id)
+		query2 = twitter.statuses.user_timeline(srceen_name = user, count = 200, max_id = last_id)
 		last_id = query2[-1]["id"]
 		if (len(query2) <= 1):
 			break
 		query = query + query2
 	#pretty print timeline
-	#tweet_printer.pretty_print_timeline(query)
+	tweet_printer.pretty_print_timeline(query)
 	#csv print
-	tweet_printer.csv_print(query, user, "test.txt")
+	#tweet_printer.csv_print(query, user, "test.txt")
 	#raw print
 	#tweet_printer.raw_print(query, "test.txt")

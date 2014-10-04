@@ -17,6 +17,9 @@ from textwrap import fill
 from termcolor import colored
 from email.utils import parsedate
 
+#custom packages
+import tweet_printer
+
 # these tokens are necessary for user authentication
 consumer_key = "vd0jfFzb5EsgA32oiY5tqkoYe"
 consumer_secret = "QpWU2EzpTpBjmn1CCXDuw3gNKfL0VNdsTrTAD9sjnjkwNEXVVF"
@@ -32,7 +35,7 @@ print("Stream created")
 # iterate over tweets matching this filter text
 # IMPORTANT! this is not quite the same as a standard twitter search
 # tweet_iter = stream.statuses.filter(track = search_term)
-tweet_iter = stream.statuses.sample(language = "en")
+tweet_iter = stream.statuses.sample(q="", language = "en")
 
 print("filter")
 
@@ -60,5 +63,7 @@ for tweet in tweet_iter:
 		text_colored = fill(text_colored, 80, initial_indent = indent, subsequent_indent = indent)
 
 		# now output our tweet
-		print "(%s) @%s" % (time_colored, user_colored)
-		print "%s" % (text_colored)
+		#print timezone
+		#print "(%s) @%s" % (time_colored, user_colored)
+		#print "%s" % (text_colored)
+		tweet_printer.raw_print(query, )
