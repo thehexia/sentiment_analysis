@@ -21,10 +21,21 @@ access_secret = "zGdDuzF3FdW32xg8jLmEj8Q8fXTpBLkC08MdHfPhR6W4S"
 # create twitter API object
 twitter = Twitter(auth = OAuth(access_key, access_secret, consumer_key, consumer_secret))
 
-query = twitter.search.tweets(q="Microsoft", count=10)
+query = twitter.search.tweets(q="", count=180)
 
-for status in query["statuses"]:
-	print(status["user"]["name"])
-	print(status["text"])
-	print("\n")
+#want to get the last index and use it as the max_id for the first one
+#NOTE: the max_id parameter tells twitter we want all tweets less than max_id.
+last_id = query[-1]["statuses"]["id"]
 
+#loop the query until we get an empty response
+while (True):
+	print ( "Working ... Last ID:" + str(last_id) )
+	query2 = twitter.search.tweets(q="", count=180, max_id=last_id)
+	last_id = query2[-1]["id"]
+	if (len(query2) <= 1):
+		break
+	query = query + query2
+
+for tweet in query:
+	print query["statuses"]["name"]
+	print query["statuses"]["text"]
