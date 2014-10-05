@@ -1,5 +1,6 @@
 #imports
 import sys, os
+from os.path import expanduser
 from twitter import *
 import re
 from time import strftime
@@ -12,20 +13,20 @@ import tweet_printer
 #helper functions
 #-----------------
 def filecount(dir_name):
-	return len([f for f in os.listdir(dir_name) if os.path.isfile(f)])
+	return len([f for f in os.listdir(dir_name)])
 #-----------------
-
-
 
 #-----------------
 # Start of the actual script
 # Consider this the main()
 #-----------------
 
+home = expanduser("~")
+
 #create the directories we need
-est_dir = "tweets/EST_tweets"    #eastern standard time
-ct_dir = "tweets/CT_tweets"      #central time
-pst_dir = "tweets/PST_tweets"    #pacific standard time
+est_dir = home + "/tweets/EST_tweets"    #eastern standard time
+ct_dir = home + "/tweets/CT_tweets"      #central time
+pst_dir = home +"/tweets/PST_tweets"    #pacific standard time
 
 #check if the folders exist. if they don,t make them
 if not os.path.exists(est_dir):
@@ -61,14 +62,11 @@ aggregate_result = twitter_stream.stream_reader(tweet_count, stream)
 # tweet_printer.pretty_print_timeline(aggregate_result[3])
 
 #come up with file names
-filename_est = str(filecount(est_dir)) + strftime("%m-%d-%Y_%H-%M-%S") + "_EST.pickle"
-filename_ct = str(filecount(ct_dir)) + strftime("%m-%d-%Y_%H-%M-%S") + "_CT.pickle"
-filename_pst = str(filecount(pst_dir)) + strftime("%m-%d-%Y_%H-%M-%S") + "_PST.pickle"
+filename_est = str(filecount(est_dir)) + '_' + strftime("%m-%d-%Y_%H-%M-%S") + "_EST.pickle"
+filename_ct = str(filecount(ct_dir)) + '_' + strftime("%m-%d-%Y_%H-%M-%S") + "_CT.pickle"
+filename_pst = str(filecount(pst_dir)) + '_' + strftime("%m-%d-%Y_%H-%M-%S") + "_PST.pickle"
 
 #write them to file
 tweet_printer.raw_print(aggregate_result[0], est_dir + "/" + filename_est)
 tweet_printer.raw_print(aggregate_result[1], ct_dir + "/" + filename_ct)
 tweet_printer.raw_print(aggregate_result[3], pst_dir + "/" + filename_pst)
-
-
-
