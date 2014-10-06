@@ -1,5 +1,6 @@
 import pickle
 import sys
+from os.path import expanduser
 
 #custom modules
 import tweet_printer
@@ -9,6 +10,9 @@ def unpickle_tweets(filename):
 		tweets = pickle.load(f)
 	return tweets
 
-tweets = unpickle_tweets(sys.argv[1])
+home = expanduser('~')
+path = sys.argv[1].replace('~', home)
+tweets = unpickle_tweets(path)
 
 tweet_printer.pretty_print_timeline(tweets)
+
