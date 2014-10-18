@@ -2,6 +2,7 @@ from textblob import TextBlob
 import os, sys, traceback
 import pickle
 import glob
+import time
 
 # results
 result_scores = [0, 0]
@@ -56,9 +57,15 @@ for filename in os.listdir(dir_name):
 
 
 #read the input file
+count = 1
 for filename in filenames:
+	time.sleep(1)
 	tweets = unpickle_tweets(filename)
 	result = sentiment_analysis(tweets)
+	sys.stdout.write("\r%d%%", count)
+	count += 1
+	sys.stdout.flush()
+
 print("Positivity Score: " + str(result_scores[0]))
 print("Negativity Score: " + str(result_scores[1]))
 print("Positivity Count: " + str(result_count[0]))
