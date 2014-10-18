@@ -62,7 +62,7 @@ for filename in filenames:
 	time.sleep(1)
 	tweets = unpickle_tweets(filename)
 	result = sentiment_analysis(tweets)
-	sys.stdout.write("\r%d%%", count)
+	sys.stdout.write("\r" + str(count))
 	count += 1
 	sys.stdout.flush()
 
