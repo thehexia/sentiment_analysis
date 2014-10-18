@@ -59,7 +59,7 @@ for filename in os.listdir(dir_name):
 #read the input file
 count = 1
 for filename in filenames:
-	time.sleep(1)
+	time.sleep(0.1)
 	tweets = unpickle_tweets(filename)
 	result = sentiment_analysis(tweets)
 	sys.stdout.write("\r" + str(count))
