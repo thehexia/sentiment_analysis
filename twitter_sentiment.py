@@ -1,6 +1,11 @@
 from textblob import TextBlob
 import os, sys, traceback
 import pickle
+import glob
+
+# results
+result_scores = [0, 0]
+result_count = [0, 0, 0]
 
 #reads files and unpickles them
 def unpickle_tweets(filename):
@@ -11,9 +16,6 @@ def unpickle_tweets(filename):
 # performs sentiment analysis on tweets and returns the score
 # returns a list[2] 
 def sentiment_analysis(tweets):
-	result_scores = [0, 0]
-	result_count = [0, 0, 0]
-	i = 0
 	for tweet in tweets:
 		#add a try/except block just in case a tweet is corrupted
 		try:
@@ -43,24 +45,22 @@ def sentiment_analysis(tweets):
 		except:
 			traceback.print_exc(file=sys.stdout)
 
-	result = [result_scores, result_count]
-	return result
 
 
-#read the filenames from command line input
+
+#read the filenames from the directory given by the command line argument
+dir_name = sys.argv[1]
 filenames = []
-for arg in sys.argv:
-	filenames.append(arg)
+for filename in os.listdir(dir_name):
+	filenames.append(dir_name + "/" + filename)
 
-#remove the zero-eth element because its the name of the program
-filenames.pop(0)
 
 #read the input file
 for filename in filenames:
 	tweets = unpickle_tweets(filename)
 	result = sentiment_analysis(tweets)
-	print("Positivity Score: " + str(result[0][0]))
-	print("Negativity Score: " + str(result[0][1]))
-	print("Positivity Count: " + str(result[1][0]))
-	print("Neutral Count: " + str(result[1][1]))
-	print("Negativity Count: " + str(result[1][2]))
+print("Positivity Score: " + str(result_scores[0]))
+print("Negativity Score: " + str(result_scores[1]))
+print("Positivity Count: " + str(result_count[0]))
+print("Neutrality Count: " + str(result_count[1]))
+print("Negativity Count: " + str(result_count[2]))
