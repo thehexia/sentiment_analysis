@@ -14,6 +14,11 @@ def unpickle_tweets(filename):
 		tweets = pickle.load(f)
 	return tweets
 
+def one_tweet_sentiment_analysis(tweet):
+	text = tweet["text"]
+	blob = TextBlob(text)
+	return blob.sentiment.polarity, blob.sentiment.subjectivity
+
 # performs sentiment analysis on tweets and returns the score
 # returns a list[2] 
 def sentiment_analysis(tweets):
@@ -49,25 +54,25 @@ def sentiment_analysis(tweets):
 
 
 
-#read the filenames from the directory given by the command line argument
+# #read the filenames from the directory given by the command line argument
 dir_name = sys.argv[1]
 filenames = []
 for filename in os.listdir(dir_name):
 	filenames.append(dir_name + "/" + filename)
 
 
-#read the input file
-count = 1
-for filename in filenames:
-	time.sleep(1)
-	tweets = unpickle_tweets(filename)
-	result = sentiment_analysis(tweets)
-	sys.stdout.write("\r" + str(count))
-	count += 1
-	sys.stdout.flush()
+# #read the input file
+# count = 1
+# for filename in filenames:
+# 	time.sleep(1)
+# 	tweets = unpickle_tweets(filename)
+# 	result = sentiment_analysis(tweets)
+# 	sys.stdout.write("\r" + str(count))
+# 	count += 1
+# 	sys.stdout.flush()
 
-print("Positivity Score: " + str(result_scores[0]))
-print("Negativity Score: " + str(result_scores[1]))
-print("Positivity Count: " + str(result_count[0]))
-print("Neutrality Count: " + str(result_count[1]))
-print("Negativity Count: " + str(result_count[2]))
+# print("Positivity Score: " + str(result_scores[0]))
+# print("Negativity Score: " + str(result_scores[1]))
+# print("Positivity Count: " + str(result_count[0]))
+# print("Neutrality Count: " + str(result_count[1]))
+# print("Negativity Count: " + str(result_count[2]))

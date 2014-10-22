@@ -3,6 +3,7 @@ from time import strftime
 from textwrap import fill
 from termcolor import colored
 from email.utils import parsedate
+import twitter_sentiment
 
 #csv module
 import csv
@@ -11,11 +12,11 @@ import csv
 import pickle
 
 #save tweets to parseable csv
-#first line is username
 #format tweet_id, hour:minute:second, mm/dd/yyyy, location, text, retweet_count, is_a_retweet ? true : false
-def csv_print(query, user, filename):
+#id, polarity, subjectivity, created_time (hour:minute:second), mm/dd/yyyy ,time_zone, retweet_count, tweet_length
+def csv_print(query, filename):
 	#open the file
-	f = open(filename, "w")
+	f = open(filename, "wb")
 
 	for tweet in query:
 		# each line of the csv
@@ -28,25 +29,19 @@ def csv_print(query, user, filename):
 		timestamp = parsedate(tweet["created_at"])
 
 		# determine location
-		location = "";
 		#try to get location since this may not be possible
-		try:
-			location = tweet["location"]
-		except:
-			location = "Unknown"
+		time_zone = tweet["user"]["time_zone"]
 
-		#get the tweet text
-		#make sure to enclose in double-quotes to handle special chars that appear
-		tweet_text = "\"" + tweet["text"] + "\""
+		# get the length of the tweet
+		tweet_length = len(tweet["text"])
 
 		#get the retweet count
 		retweet_count = str(tweet["retweet_count"])
 
-		#determine if the tweet was a retweet
-		was_retweeted = str(tweet["retweeted"])
+		polarity, subjectivity = twitter_sentiment.one_tweet_sentiment_analysis(tweet)
 
 		#build up the line of the csv
-		tweet_line += tweet_id + "," + strftime("%H:%M:%S,%m/%d/%y", timestamp) + "," + location + "," + tweet_text + "," + retweet_count + "," + was_retweeted
+		tweet_line += tweet_id + "," + str(polarity) + "," + str(subjectivity) + "," + strftime("%H:%M:%S,%m/%d/%y", timestamp) + "," + time_zone + "," + retweet_count
 		tweet_line = tweet_line.encode('utf-8')
 
 		#write the line
@@ -86,3 +81,9 @@ def pretty_print_timeline(query):
 def raw_print(query, filename):
 	with open(filename, 'wb') as output:
 		pickle.dump(query, output, pickle.HIGHEST_PROTOCOL)
+
+#reads files and unpickles them
+def unpickle_tweets(filename):
+	with open(filename, 'rb') as f:
+		tweets = pickle.load(f)
+	return tweets
