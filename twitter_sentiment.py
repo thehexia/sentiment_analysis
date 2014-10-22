@@ -55,10 +55,10 @@ def sentiment_analysis(tweets):
 
 
 # #read the filenames from the directory given by the command line argument
-dir_name = sys.argv[1]
-filenames = []
-for filename in os.listdir(dir_name):
-	filenames.append(dir_name + "/" + filename)
+# dir_name = sys.argv[1]
+# filenames = []
+# for filename in os.listdir(dir_name):
+# 	filenames.append(dir_name + "/" + filename)
 
 
 # #read the input file
@@ -76,3 +76,4 @@ for filename in os.listdir(dir_name):
 # print("Positivity Count: " + str(result_count[0]))
 # print("Neutrality Count: " + str(result_count[1]))
 # print("Negativity Count: " + str(result_count[2]))
+
