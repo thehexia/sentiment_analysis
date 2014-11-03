@@ -60,6 +60,7 @@ def pretty_print_timeline(query):
 
 		# colour our tweet's time, user and text
 		id_colored   = colored(tweet["id"], "red")
+		retweet_count = colored(tweet["retweet_count"], "red")
 		time_colored = colored(timetext, color = "white", attrs = [ "bold" ])
 		user_colored = colored(tweet["user"]["screen_name"], "green")
 		text_colored = tweet["text"]
@@ -70,6 +71,7 @@ def pretty_print_timeline(query):
 
 		# now output our tweet
 		print id_colored
+		print retweet_count
 		print "(%s) @%s" % (time_colored, user_colored)
 		print "%s" % (text_colored)
 
