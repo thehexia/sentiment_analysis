@@ -86,6 +86,9 @@ def raw_print(query, filename):
 
 #reads files and unpickles them
 def unpickle_tweets(filename):
-	with open(filename, 'rb') as f:
-		tweets = pickle.load(f)
-	return tweets
+	try:
+		with open(filename, 'rb') as f:
+			tweets = pickle.load(f)
+		return tweets
+	except:
+		print "Error " + filename + " was a directory. Skipping." 
